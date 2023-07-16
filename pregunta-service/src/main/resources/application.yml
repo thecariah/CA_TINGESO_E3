@@ -6,7 +6,7 @@ spring:
     name: pregunta-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/preguntas
+    url: jdbc:postgresql://localhost:5433/preguntas
     username: postgres
     password: intihaku4523
   jpa:
