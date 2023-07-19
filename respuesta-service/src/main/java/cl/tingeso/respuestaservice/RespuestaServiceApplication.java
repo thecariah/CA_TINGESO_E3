@@ -1,13 +1,13 @@
-package cl.tingeso.preguntaservice;
+package cl.tingeso.respuestaservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PreguntaServiceApplication {
+public class RespuestaServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PreguntaServiceApplication.class, args);
+		SpringApplication.run(RespuestaServiceApplication.class, args);
 	}
 
 }
