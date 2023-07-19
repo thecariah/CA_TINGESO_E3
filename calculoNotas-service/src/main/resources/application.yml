@@ -1,0 +1,16 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: calculoNotas-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/respuestas
+    username: postgres
+    password: intihaku4523
+  jpa:
+    show-sql: true
+    hibernate:
+      dialect: PostgreSQLDialect
+      ddl-auto: create
