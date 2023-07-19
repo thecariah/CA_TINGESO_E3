@@ -13,7 +13,7 @@ import java.util.List;
 public class PreguntaController {
 
     @Autowired
-    PreguntaService preguntaService;
+    private PreguntaService preguntaService;
 
     @GetMapping
     public ResponseEntity<List<PreguntaEntity>> getAllPreguntas(){
@@ -24,7 +24,7 @@ public class PreguntaController {
         return ResponseEntity.ok(preguntas);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<PreguntaEntity> getPregunta(@PathVariable("id") Long id) {
         PreguntaEntity pregunta = preguntaService.obtenerPreguntaPorId(id);
         if(pregunta == null){
@@ -33,8 +33,8 @@ public class PreguntaController {
         return ResponseEntity.ok(pregunta);
     }
 
-    @GetMapping("{nivel}")
-    public ResponseEntity<List<PreguntaEntity>> getAllPreguntas(@PathVariable("nivel") String nivel){
+    @GetMapping("/nivel/{nivel}")
+    public ResponseEntity<List<PreguntaEntity>> getPreguntasPorNivel(@PathVariable("nivel") String nivel){
         List<PreguntaEntity> preguntas = preguntaService.obtenerPreguntasPorNivel(nivel);
         if(preguntas.isEmpty()){
             return ResponseEntity.noContent().build();
