@@ -18,9 +18,4 @@ public class CalculoNotasEntity {
     private Long id;
 
     private double nota_final;
-
-    private Long primeraResp;
-    private Long segundaResp;
-    private Long terceraResp;
-    private Long cuartaResp;
 }

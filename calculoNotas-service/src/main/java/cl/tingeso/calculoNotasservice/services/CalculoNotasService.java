@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,10 +21,9 @@ public class CalculoNotasService {
     @Autowired
     RestTemplate restTemplate;
 
-    public void guardarNota(Long tiempo_demorado, Long nota_final){
+    public void guardarNota(double nota_final){
         CalculoNotasEntity nota = new CalculoNotasEntity();
 
-        nota.setTiempo_demorado(tiempo_demorado);
         nota.setNota_final(nota_final);
 
         calculoNotasRepository.save(nota);
@@ -45,28 +45,52 @@ public class CalculoNotasService {
         return preguntas;
     }
 
-    public List<RespuestaModel> obtenerRespuestasPorPregunta(Long pregunta_id){
-        List<RespuestaModel> respuestas = restTemplate.getForObject("http://respuesta-service/respuestas/pregunta/" + pregunta_id, List.class);
-        System.out.println(respuestas);
-        return respuestas;
+    public PreguntaModel obtenerPreguntaPorID(Long id){
+        PreguntaModel pregunta = restTemplate.getForObject("http://pregunta-service/preguntas/get/" + id, PreguntaModel.class);
+        System.out.println(pregunta);
+        return pregunta;
+    }
+    public RespuestaModel obtenerRespuestaPorID(Long id){
+        RespuestaModel respuesta = restTemplate.getForObject("http://respuesta-service/respuestas/get/" + id, RespuestaModel.class);
+        System.out.println(respuesta);
+        return respuesta;
     }
 
-    public List<PreguntaModel> obtenerPreguntasAleatorias(List<PreguntaModel> repoPreguntas, Integer cantPreguntas){
+    public List<PreguntaModel> obtenerPreguntasAleatorias(String nivel, Integer cantPreguntas){
+        List<PreguntaModel> repoPreguntas = obtenerPreguntasPorNivel(nivel);
         Collections.shuffle(repoPreguntas);
-        return repoPreguntas.subList(0, cantPreguntas));
+        return repoPreguntas.subList(0, cantPreguntas);
     }
 
-    public void calcularNota(List<PreguntaModel> preguntasAleatorias, List<RespuestaModel> respuestasUsuario){
-        //List<RespuestaModel> respuestas = obtenerRespuestasPorPregunta();
+    public double calcularPromedio(List<Double> listaNum){
+        double acum = 0;
 
+        for (Double num : listaNum) {
+            acum += num;
+        }
+
+        return acum / listaNum.size();
     }
 
-    public void iniciarTestPython(String nivel){
+    public double calcularNotaFinal(List<RespuestaModel> respuestasUsuario){
+        List<Double> notas = new ArrayList<>();
 
+        for (RespuestaModel respuesta : respuestasUsuario){
+            PreguntaModel pregunta = obtenerPreguntaPorID(respuesta.getPregunta_id());
 
+            if (pregunta.getResp_correcta().equals(respuesta.getRespuesta())){
+                notas.add(7.0);
+            }
+            else{
+                notas.add(1.0);
+            }
+        }
+
+        double notaFinal = calcularPromedio(notas);
+
+        guardarNota(notaFinal);
+
+        return notaFinal;
     }
-
-
-
 
 }

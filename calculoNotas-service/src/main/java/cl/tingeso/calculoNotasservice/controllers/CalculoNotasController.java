@@ -38,8 +38,8 @@ public class CalculoNotasController {
     }
 
     @PostMapping("/new")
-    public String createNota(@RequestParam("tiempo_demorado") Long tiempo_demorado, @RequestParam("nota_final") Long nota_final){
-        calculoNotasService.guardarNota(tiempo_demorado, nota_final);
+    public String createNota(@RequestParam("nota_final") double nota_final){
+        calculoNotasService.guardarNota(nota_final);
         return "redirect:/notas/new";
     }
 
