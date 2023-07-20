@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CalculoNotasRepository extends JpaRepository<CalculoNotasEntity, Long> {
-    //encontrar reporte notas por id
+    //encontrar notas por id
     @Query("SELECT r FROM CalculoNotasEntity r WHERE r.id = :id")
-    CalculoNotasEntity findReporteNotasById(@Param("id") Long id);
+    CalculoNotasEntity findNotasById(@Param("id") Long id);
 
 }

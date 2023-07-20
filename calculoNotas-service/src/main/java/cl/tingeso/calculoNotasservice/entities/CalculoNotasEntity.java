@@ -17,6 +17,10 @@ public class CalculoNotasEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long tiempo_demorado;
-    private Long nota_final;
+    private double nota_final;
+
+    private Long primeraResp;
+    private Long segundaResp;
+    private Long terceraResp;
+    private Long cuartaResp;
 }

@@ -1,1 +1,0 @@
-INSERT INTO notas(id,tiempo_demorado,nota_final) VALUES (0, 375, 7.0);
