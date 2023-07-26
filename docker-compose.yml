@@ -92,6 +92,19 @@ services:
       - spring
     depends_on:
       - eureka-server
+  # FRONTEND
+  frontend:
+    container_name: frontend
+    image: thecariah/frontend-e3:latest
+    volumes:
+      - ./:/frontend
+      - /frontend/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - spring
+    depends_on:
+      - gateway-service
 
 volumes:
   data-postgres:
