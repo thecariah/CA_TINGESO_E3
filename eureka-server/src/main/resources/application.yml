@@ -4,9 +4,6 @@ server:
 spring:
   application:
     name: eureka-server
-  freemarker:
-    template-loader-path: classpath:/templates/
-    prefer-file-system-access: false
 
 eureka:
   client:

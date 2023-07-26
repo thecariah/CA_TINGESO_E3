@@ -1,23 +1,24 @@
 services:
-  # postgres contenedor 5432
+  # POSTGRES
   postgres:
     container_name: postgres
     image: postgres:latest
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: intihaku4523
-      PGDATA: /data/postgres
     expose:
-      - 5433
-    volumes:
-      - postgres:/data/postgres
+      - "5433"
     ports:
-      - 5433:5433
+      #- "5432:5432"
+      - "5433:5433"
+    #command: postgres -c listen_addresses=*
     command: -p 5433
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
     networks:
       - postgres
     restart: always
-  # pgadmin contenedor
+  # PGADMIN
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -32,11 +33,73 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+  # MICROSERVICIO PREGUNTA
+  pregunta-service:
+    container_name: pregunta-service
+    image: thecariah/pregunta-service:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - postgres
+      - spring
+    depends_on:
+      - postgres
+      - eureka-server
+    restart: always
+  # MICROSERVICIO RESPUESTA
+  respuesta-service:
+    container_name: respuesta-service
+    image: thecariah/respuesta-service:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - postgres
+      - spring
+    depends_on:
+      - postgres
+      - eureka-server
+    restart: always
+  # MICROSERVICIO CALCULONOTAS
+  calculo-notas-service:
+    container_name: calculo-notas-service
+    image: thecariah/calculo-notas-service:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - postgres
+      - spring
+    depends_on:
+      - postgres
+      - pregunta-service
+      - respuesta-service
+      - eureka-server
+    restart: always
+  # EUREKA SERVER
+  eureka-server:
+    container_name: eureka-server
+    image: thecariah/eureka-server:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - spring
+  # GATEWAY
+  gateway-service:
+    container_name: gateway-service
+    image: thecariah/gateway-service:latest
+    ports:
+      - "8083:8083"
+    networks:
+      - spring
+    depends_on:
+      - eureka-server
+
+volumes:
+  data-postgres:
+    name: data-postgres
+  pgadmin:
 
 networks:
   postgres:
     driver: bridge
-
-volumes:
-  postgres:
-  pgadmin:
+  spring:
+    driver: bridge

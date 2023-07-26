@@ -50,11 +50,6 @@ public class CalculoNotasService {
         System.out.println(pregunta);
         return pregunta;
     }
-    public RespuestaModel obtenerRespuestaPorID(Long id){
-        RespuestaModel respuesta = restTemplate.getForObject("http://respuesta-service/respuestas/get/" + id, RespuestaModel.class);
-        System.out.println(respuesta);
-        return respuesta;
-    }
 
     public List<PreguntaModel> obtenerPreguntasAleatorias(String nivel, Integer cantPreguntas){
         List<PreguntaModel> repoPreguntas = obtenerPreguntasPorNivel(nivel);

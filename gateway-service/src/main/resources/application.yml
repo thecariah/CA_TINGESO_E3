@@ -10,7 +10,7 @@ spring:
         - id: pregunta-service
           uri: lb://PREGUNTA-SERVICE
           predicates:
-            - Path=/proveedores/**
+            - Path=/preguntas/**
         - id: respuesta-service
           uri: lb://RESPUESTA-SERVICE
           predicates:
@@ -23,6 +23,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka
     fetch-registry: true
     register-with-eureka: true
